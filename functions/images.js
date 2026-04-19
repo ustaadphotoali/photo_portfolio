@@ -1,4 +1,4 @@
-export async function onRequest() {
+export async function onRequest({ env }) {
   const cloudName = "dqntivbw8";
   const apiKey = "YOUR_API_KEY";
   const apiSecret = "YOUR_API_SECRET";
