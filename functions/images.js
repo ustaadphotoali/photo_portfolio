@@ -1,4 +1,6 @@
-export async function onRequest({ env }) {
+export async function onRequest() {
+  return new Response("Function is working");
+}
   const cloudName = "dqntivbw8";
   const apiKey = "YOUR_API_KEY";
   const apiSecret = "YOUR_API_SECRET";
