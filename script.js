@@ -1,8 +1,8 @@
-const cloudName = "YOUR_CLOUD_NAME";
+const cloudName = "dqntivbw8";
 
 const images = [
-  "portfolio/photo1",
-  "portfolio/photo2"
+  "test/photo1",
+  "test/photo2"
 ];
 
 const gallery = document.getElementById("gallery");
