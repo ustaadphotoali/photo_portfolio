@@ -1,13 +1,11 @@
-const cloudName = "dqntivbw8";
+const gallery = document.getElementById("gallery");
 
-fetch("images.json")
+fetch("/images")
   .then(res => res.json())
   .then(images => {
-    const gallery = document.getElementById("gallery");
-
-    images.forEach(id => {
+    images.forEach(imgData => {
       const img = document.createElement("img");
-      img.src = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${id}`;
+      img.src = imgData.secure_url;
       gallery.appendChild(img);
     });
   });
