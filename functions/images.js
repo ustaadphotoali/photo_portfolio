@@ -5,7 +5,8 @@ export async function onRequest({ env }) {
 
   const auth = btoa(`${apiKey}:${apiSecret}`);
 
-  const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?max_results=100&direction=desc`;
+  // 🔹 Request metadata (important for GPS)
+  const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?max_results=100&direction=desc&image_metadata=true`;
 
   const response = await fetch(url, {
     headers: {
@@ -15,7 +16,62 @@ export async function onRequest({ env }) {
 
   const data = await response.json();
 
-  return new Response(JSON.stringify(data.resources), {
+  const images = data.resources.map((img) => {
+    const name = img.public_id.split("/").pop();
+
+    let lat = null;
+    let lng = null;
+    let location = null;
+
+    // 🔹 Extract GPS from EXIF if available
+    if (img.image_metadata) {
+      const meta = img.image_metadata;
+
+      if (meta.GPSLatitude && meta.GPSLongitude) {
+        try {
+          lat = convertDMSToDD(meta.GPSLatitude, meta.GPSLatitudeRef);
+          lng = convertDMSToDD(meta.GPSLongitude, meta.GPSLongitudeRef);
+
+          location = "Captured location";
+        } catch (e) {
+          console.log("GPS parse error:", e);
+        }
+      }
+    }
+
+    return {
+      secure_url: img.secure_url,
+      display_name: name,
+      width: img.width,
+      height: img.height,
+      bytes: img.bytes,
+      format: img.format,
+
+      // 🔹 Location data (may be null)
+      lat,
+      lng,
+      location
+    };
+  });
+
+  return new Response(JSON.stringify(images), {
     headers: { "Content-Type": "application/json" }
   });
+}
+
+// 🔹 Convert EXIF DMS → Decimal Degrees
+function convertDMSToDD(dms, ref) {
+  // Example input: "35/1, 46/1, 1234/100"
+  const parts = dms.split(",").map(part => {
+    const [num, denom] = part.trim().split("/").map(Number);
+    return num / denom;
+  });
+
+  let dd = parts[0] + parts[1] / 60 + parts[2] / 3600;
+
+  if (ref === "S" || ref === "W") {
+    dd = -dd;
+  }
+
+  return dd;
 }
