@@ -37,6 +37,37 @@ header {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 70%;
+}
+
+#close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+#image-info {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
 
 .gallery img:hover {
   transform: scale(1.02);
