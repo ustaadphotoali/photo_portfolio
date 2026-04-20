@@ -1,18 +1,40 @@
 const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const imageInfo = document.getElementById("image-info");
+const closeBtn = document.getElementById("close");
 
 fetch("/images")
   .then(res => res.json())
   .then(images => {
-    gallery.innerHTML = ""; // clear anything old
+    gallery.innerHTML = "";
 
     images.forEach(imgData => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "gallery-item";
+
       const img = document.createElement("img");
       img.src = imgData.secure_url;
-      img.loading = "lazy"; // improves performance
+      img.loading = "lazy";
 
-      gallery.appendChild(img);
+      // Click → open fullscreen
+      img.onclick = () => {
+        lightbox.style.display = "flex";
+        lightboxImg.src = imgData.secure_url;
+
+        // Metadata (fallback + example fields)
+        imageInfo.innerHTML = `
+          <div>${imgData.display_name || "Untitled"}</div>
+          <div>${imgData.width} x ${imgData.height}</div>
+          <div>${(imgData.bytes / 1000000).toFixed(2)} MB</div>
+        `;
+      };
+
+      wrapper.appendChild(img);
+      gallery.appendChild(wrapper);
     });
-  })
-  .catch(err => {
-    console.error("Error loading images:", err);
   });
+
+closeBtn.onclick = () => {
+  lightbox.style.display = "none";
+};
