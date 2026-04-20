@@ -17,17 +17,20 @@ header {
 }
 
 @media (max-width: 1000px) {
-  .gallery { column-count: 2; }
+  .gallery {
+    column-count: 2;
+  }
 }
 
 @media (max-width: 600px) {
-  .gallery { column-count: 1; }
+  .gallery {
+    column-count: 1;
+  }
 }
 
 .gallery-item {
   break-inside: avoid;
   margin-bottom: 12px;
-  position: relative;
 }
 
 .gallery img {
@@ -37,38 +40,48 @@ header {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
+
+.gallery img:hover {
+  transform: scale(1.02);
+}
+
 .lightbox {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.92);
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 9999;
 }
 
 .lightbox img {
   max-width: 90%;
-  max-height: 70%;
+  max-height: 70vh;
+  border-radius: 10px;
 }
 
 #close {
   position: absolute;
   top: 20px;
-  right: 40px;
-  font-size: 40px;
+  right: 32px;
+  font-size: 42px;
+  line-height: 1;
   cursor: pointer;
+  color: white;
 }
 
 #image-info {
-  margin-top: 15px;
+  margin-top: 16px;
+  color: #ddd;
+  text-align: center;
   font-size: 14px;
-  color: #ccc;
-}
-
-.gallery img:hover {
-  transform: scale(1.02);
+  line-height: 1.6;
+  max-width: 90%;
 }
