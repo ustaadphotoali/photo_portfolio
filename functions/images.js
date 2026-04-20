@@ -5,7 +5,7 @@ export async function onRequest({ env }) {
 
   const auth = btoa(`${apiKey}:${apiSecret}`);
 
-  const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?max_results=100`;
+  const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?max_results=100&direction=desc`;
 
   const response = await fetch(url, {
     headers: {
