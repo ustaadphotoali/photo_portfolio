@@ -1,87 +1,170 @@
+/* Base */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  background: #020617;
   color: white;
+  overflow-x: hidden;
 }
 
+/* Background Map */
+.background-map {
+  position: fixed;
+  inset: 0;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') center/cover no-repeat;
+  opacity: 0.08;
+  z-index: -2;
+  filter: hue-rotate(180deg) saturate(200%);
+}
+
+/* SVG overlay for lines */
+.map-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Header */
 header {
   text-align: center;
   padding: 40px 20px;
 }
 
+/* Gallery Layout */
 .gallery {
   column-count: 4;
-  column-gap: 12px;
+  column-gap: 16px;
   padding: 20px;
 }
 
 @media (max-width: 1000px) {
-  .gallery {
-    column-count: 2;
-  }
+  .gallery { column-count: 2; }
 }
 
 @media (max-width: 600px) {
-  .gallery {
-    column-count: 1;
-  }
+  .gallery { column-count: 1; }
 }
 
 .gallery-item {
   break-inside: avoid;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
+/* Neon Image Card */
 .gallery img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   display: block;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Neon glow wrapper */
+.gallery-item {
+  position: relative;
+  border-radius: 12px;
+}
+
+.gallery-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(120deg, #00eaff, #0077ff, #00eaff);
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.gallery-item:hover::before {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px #00eaff);
 }
 
 .gallery img:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
+/* LIGHTBOX (FULLSCREEN) */
 .lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.92);
+  inset: 0;
+  background: rgba(2, 6, 23, 0.95);
   display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  box-sizing: border-box;
   z-index: 9999;
 }
 
-.lightbox img {
-  max-width: 90%;
-  max-height: 70vh;
-  border-radius: 10px;
+/* Layout inside lightbox */
+.lightbox-content {
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
+/* Image viewer */
+.viewer {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.viewer img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
+}
+
+/* Side panel */
+.side-panel {
+  flex: 1;
+  background: rgba(10, 20, 40, 0.9);
+  border-left: 1px solid rgba(0, 200, 255, 0.3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.side-panel h2 {
+  margin-top: 0;
+  color: #00eaff;
+}
+
+.side-panel p {
+  margin: 8px 0;
+  color: #cbd5f5;
+}
+
+/* Close button */
 #close {
   position: absolute;
   top: 20px;
   right: 32px;
   font-size: 42px;
-  line-height: 1;
   cursor: pointer;
   color: white;
+  z-index: 10;
 }
 
-#image-info {
-  margin-top: 16px;
-  color: #ddd;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 90%;
+/* Mobile adjustment */
+@media (max-width: 900px) {
+  .lightbox-content {
+    flex-direction: column;
+  }
+
+  .side-panel {
+    border-left: none;
+    border-top: 1px solid rgba(0, 200, 255, 0.3);
+  }
 }
