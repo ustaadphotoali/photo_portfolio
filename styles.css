@@ -1,23 +1,45 @@
-/* Base */
+:root {
+  --bg-deep: #110804;
+  --bg-panel: rgba(18, 10, 7, 0.82);
+  --text-main: #fff6e7;
+  --text-soft: #e5cfa8;
+  --accent: #f0b35f;
+  --accent-strong: #ffe3a8;
+  --border-soft: rgba(255, 227, 168, 0.22);
+  --shadow-soft: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #020617;
-  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--bg-deep);
+  color: var(--text-main);
   overflow-x: hidden;
 }
 
-/* Background Map */
 .background-map {
   position: fixed;
   inset: 0;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') center/cover no-repeat;
-  opacity: 0.08;
-  z-index: -2;
-  filter: hue-rotate(180deg) saturate(200%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -3;
+  transform: scale(1.03);
 }
 
-/* SVG overlay for lines */
+.background-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(255, 214, 143, 0.06), transparent 40%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.72));
+}
+
 .map-overlay {
   position: fixed;
   inset: 0;
@@ -25,91 +47,185 @@ body {
   pointer-events: none;
 }
 
-/* Header */
 header {
   text-align: center;
-  padding: 40px 20px;
+  padding: 56px 20px 28px;
 }
 
-/* Gallery Layout */
+header h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+header p {
+  margin: 12px auto 0;
+  max-width: 720px;
+  font-size: 1rem;
+  color: var(--text-soft);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+main {
+  padding: 0 20px 40px;
+}
+
 .gallery {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.category-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.category-card {
+  min-height: 300px;
+  border: 1px solid var(--border-soft);
+  border-radius: 24px;
+  padding: 24px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--text-main);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 3, 1, 0.82), rgba(8, 3, 1, 0.15));
+}
+
+.category-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 227, 168, 0.5);
+  box-shadow: 0 26px 50px rgba(0, 0, 0, 0.42);
+}
+
+.category-name {
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.category-count,
+.category-folder {
+  color: var(--text-soft);
+}
+
+.category-folder {
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.image-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.gallery-toolbar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.back-button {
+  border: 1px solid var(--border-soft);
+  background: rgba(24, 13, 8, 0.72);
+  color: var(--accent-strong);
+  border-radius: 999px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font: inherit;
+  box-shadow: var(--shadow-soft);
+}
+
+.images-grid {
   column-count: 4;
   column-gap: 16px;
-  padding: 20px;
 }
 
 @media (max-width: 1000px) {
-  .gallery { column-count: 2; }
+  .images-grid {
+    column-count: 2;
+  }
 }
 
-@media (max-width: 600px) {
-  .gallery { column-count: 1; }
+@media (max-width: 640px) {
+  .images-grid {
+    column-count: 1;
+  }
 }
 
 .gallery-item {
   break-inside: avoid;
   margin-bottom: 16px;
-}
-
-/* Neon Image Card */
-.gallery img {
-  width: 100%;
-  border-radius: 12px;
-  display: block;
-  cursor: pointer;
-  transition: transform 0.25s ease;
   position: relative;
-  z-index: 1;
-}
-
-/* Neon glow wrapper */
-.gallery-item {
-  position: relative;
-  border-radius: 12px;
+  border-radius: 18px;
 }
 
 .gallery-item::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 18px;
   padding: 2px;
-  background: linear-gradient(120deg, #00eaff, #0077ff, #00eaff);
-  -webkit-mask: 
-    linear-gradient(#000 0 0) content-box, 
+  background: linear-gradient(135deg, rgba(255, 227, 168, 0.8), rgba(240, 179, 95, 0.18));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.6;
-  transition: 0.3s;
+  opacity: 0.8;
 }
 
-.gallery-item:hover::before {
-  opacity: 1;
-  filter: drop-shadow(0 0 12px #00eaff);
+.gallery img {
+  width: 100%;
+  border-radius: 18px;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.25s ease;
 }
 
 .gallery img:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
-/* LIGHTBOX (FULLSCREEN) */
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(2, 6, 23, 0.95);
+  background: rgba(8, 5, 2, 0.94);
   display: none;
   z-index: 9999;
 }
 
-/* Layout inside lightbox */
 .lightbox-content {
   display: flex;
   height: 100%;
   width: 100%;
 }
 
-/* Image viewer */
 .viewer {
   flex: 3;
   display: flex;
@@ -121,15 +237,14 @@ header {
 .viewer img {
   max-width: 100%;
   max-height: 85vh;
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(240, 179, 95, 0.22);
 }
 
-/* Side panel */
 .side-panel {
   flex: 1;
-  background: rgba(10, 20, 40, 0.9);
-  border-left: 1px solid rgba(0, 200, 255, 0.3);
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border-soft);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -138,15 +253,14 @@ header {
 
 .side-panel h2 {
   margin-top: 0;
-  color: #00eaff;
+  color: var(--accent-strong);
 }
 
 .side-panel p {
   margin: 8px 0;
-  color: #cbd5f5;
+  color: var(--text-soft);
 }
 
-/* Close button */
 #close {
   position: absolute;
   top: 20px;
@@ -157,7 +271,6 @@ header {
   z-index: 10;
 }
 
-/* Mobile adjustment */
 @media (max-width: 900px) {
   .lightbox-content {
     flex-direction: column;
@@ -165,6 +278,6 @@ header {
 
   .side-panel {
     border-left: none;
-    border-top: 1px solid rgba(0, 200, 255, 0.3);
+    border-top: 1px solid var(--border-soft);
   }
 }
