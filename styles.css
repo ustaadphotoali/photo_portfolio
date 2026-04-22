@@ -158,8 +158,8 @@ main {
 
 .panel-title {
   margin: 0;
-  font-size: clamp(1.35rem, 2.6vw, 2.35rem);
-  line-height: 1.72;
+  font-size: clamp(1.05rem, 1.75vw, 1.7rem);
+  line-height: 1.68;
   letter-spacing: 0.01em;
   font-weight: 400;
   font-style: italic;
@@ -173,7 +173,7 @@ main {
   color: var(--accent-strong);
   letter-spacing: 0.02em;
   text-transform: none;
-  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  font-size: clamp(0.82rem, 0.95vw, 1rem);
   font-weight: 500;
 }
 
@@ -326,8 +326,8 @@ main {
   }
 
   .panel-title {
-    font-size: 1.2rem;
-    line-height: 1.68;
+    font-size: 1rem;
+    line-height: 1.62;
   }
 
   .quote-divider {
