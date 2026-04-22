@@ -105,8 +105,8 @@ function createSidebarButton(category) {
   }
 
   button.addEventListener("click", () => {
-    currentCategory = category.name;
-    renderLayout();
+    const encodedCategory = encodeURIComponent(category.name);
+    window.location.href = `/category/?category=${encodedCategory}`;
   });
 
   return button;

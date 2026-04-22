@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Category | V's Perspective</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-map"></div>
+
+  <header class="category-header">
+    <a class="back-link" href="/">Back to home</a>
+    <h1>V's Perspective</h1>
+    <p id="category-subtitle">Collection</p>
+  </header>
+
+  <main class="category-shell">
+    <section class="category-page">
+      <h2 id="category-title" class="category-title">Category</h2>
+      <div id="masonry" class="masonry"></div>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox">
+    <span id="close">&times;</span>
+    <div class="lightbox-content">
+      <div class="viewer">
+        <img id="lightbox-img" alt="Expanded view" />
+      </div>
+      <div class="side-panel">
+        <h2 id="img-title">Title</h2>
+        <p id="img-location"></p>
+        <p id="img-details"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
