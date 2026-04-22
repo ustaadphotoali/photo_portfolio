@@ -38,9 +38,9 @@ function drawLine(imgRect, lat, lng) {
   line.setAttribute("y1", startY);
   line.setAttribute("x2", x);
   line.setAttribute("y2", y);
-  line.setAttribute("stroke", "#f8dfb0");
+  line.setAttribute("stroke", "#47d7ff");
   line.setAttribute("stroke-width", "2");
-  line.style.filter = "drop-shadow(0 0 6px rgba(248, 223, 176, 0.8))";
+  line.style.filter = "drop-shadow(0 0 8px rgba(71, 215, 255, 0.9))";
 
   overlay.appendChild(line);
 }
@@ -60,7 +60,7 @@ function setBackgroundImage(url) {
     return;
   }
 
-  backgroundMap.style.backgroundImage = `linear-gradient(rgba(10, 6, 2, 0.5), rgba(10, 6, 2, 0.78)), url("${url}")`;
+  backgroundMap.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.86)), url("${url}")`;
 }
 
 function openLightbox(imgData, imgElement) {
@@ -109,24 +109,68 @@ function createImageCard(imgData) {
   return wrapper;
 }
 
-function renderCategoryGallery(categoryName) {
-  currentCategory = categoryName;
-  gallery.className = "gallery image-gallery";
+function createSidebarButton(category) {
+  const button = document.createElement("button");
+  button.className = "category-link";
+  button.type = "button";
+  button.textContent = prettifyCategory(category.name);
+
+  if (category.name === currentCategory) {
+    button.classList.add("active");
+  }
+
+  button.addEventListener("click", () => {
+    currentCategory = category.name;
+    renderLayout();
+  });
+
+  return button;
+}
+
+function renderLayout() {
+  gallery.className = "gallery shell-layout";
   gallery.innerHTML = "";
 
-  const toolbar = document.createElement("div");
-  toolbar.className = "gallery-toolbar";
+  const shell = document.createElement("div");
+  shell.className = "content-shell";
 
-  const backButton = document.createElement("button");
-  backButton.className = "back-button";
-  backButton.type = "button";
-  backButton.textContent = "Back to categories";
-  backButton.addEventListener("click", renderCategories);
+  const sidebar = document.createElement("aside");
+  sidebar.className = "category-sidebar";
 
-  toolbar.appendChild(backButton);
-  gallery.appendChild(toolbar);
+  const sidebarTitle = document.createElement("h2");
+  sidebarTitle.className = "sidebar-title";
+  sidebarTitle.textContent = "Categories";
 
-  const images = allImages.filter((image) => image.category === categoryName);
+  const sidebarList = document.createElement("div");
+  sidebarList.className = "category-list";
+
+  categories.forEach((category) => {
+    sidebarList.appendChild(createSidebarButton(category));
+  });
+
+  sidebar.appendChild(sidebarTitle);
+  sidebar.appendChild(sidebarList);
+
+  const content = document.createElement("section");
+  content.className = "gallery-panel";
+
+  const activeCategory = categories.find((category) => category.name === currentCategory) || categories[0];
+  const images = allImages.filter((image) => image.category === activeCategory.name);
+
+  const panelHeader = document.createElement("div");
+  panelHeader.className = "panel-header";
+
+  const panelTitle = document.createElement("h2");
+  panelTitle.className = "panel-title";
+  panelTitle.textContent = prettifyCategory(activeCategory.name);
+
+  const panelMeta = document.createElement("p");
+  panelMeta.className = "panel-meta";
+  panelMeta.textContent = `${images.length} image${images.length === 1 ? "" : "s"} - ${activeCategory.folder || activeCategory.name}`;
+
+  panelHeader.appendChild(panelTitle);
+  panelHeader.appendChild(panelMeta);
+
   const imagesGrid = document.createElement("div");
   imagesGrid.className = "images-grid";
 
@@ -134,49 +178,15 @@ function renderCategoryGallery(categoryName) {
     imagesGrid.appendChild(createImageCard(imgData));
   });
 
-  gallery.appendChild(imagesGrid);
+  content.appendChild(panelHeader);
+  content.appendChild(imagesGrid);
 
-  pageTitle.textContent = prettifyCategory(categoryName);
-  pageSubtitle.textContent = `${images.length} image${images.length === 1 ? "" : "s"} in this collection`;
-}
+  shell.appendChild(sidebar);
+  shell.appendChild(content);
+  gallery.appendChild(shell);
 
-function createCategoryCard(category) {
-  const card = document.createElement("button");
-  card.className = "category-card";
-  card.type = "button";
-  card.style.backgroundImage = `linear-gradient(rgba(10, 6, 2, 0.2), rgba(10, 6, 2, 0.7)), url("${category.coverImage}")`;
-
-  const title = document.createElement("span");
-  title.className = "category-name";
-  title.textContent = prettifyCategory(category.name);
-
-  const meta = document.createElement("span");
-  meta.className = "category-count";
-  meta.textContent = `${category.count} image${category.count === 1 ? "" : "s"}`;
-
-  const folder = document.createElement("span");
-  folder.className = "category-folder";
-  folder.textContent = category.folder || category.name;
-
-  card.appendChild(title);
-  card.appendChild(meta);
-  card.appendChild(folder);
-  card.addEventListener("click", () => renderCategoryGallery(category.name));
-
-  return card;
-}
-
-function renderCategories() {
-  currentCategory = null;
-  gallery.className = "gallery category-gallery";
-  gallery.innerHTML = "";
-
-  categories.forEach((category) => {
-    gallery.appendChild(createCategoryCard(category));
-  });
-
-  pageTitle.textContent = "My Photography";
-  pageSubtitle.textContent = "Browse by category";
+  pageTitle.textContent = "V's Perspective";
+  pageSubtitle.textContent = "Select a category to explore the collection";
 }
 
 fetch("/images")
@@ -194,10 +204,19 @@ fetch("/images")
       setBackgroundImage(heroImage.secure_url);
     }
 
-    renderCategories();
+    if (categories.length > 0) {
+      currentCategory = categories[0].name;
+      renderLayout();
+    } else {
+      pageTitle.textContent = "V's Perspective";
+      pageSubtitle.textContent = "No categories found";
+      gallery.innerHTML = "<p style='padding:20px;'>No categories found.</p>";
+    }
   })
   .catch((err) => {
     console.error("Error loading images:", err);
+    pageTitle.textContent = "V's Perspective";
+    pageSubtitle.textContent = "Unable to load the collection";
     gallery.innerHTML = "<p style='padding:20px;'>Could not load images.</p>";
   });
 
