@@ -9,6 +9,8 @@ const overlay = document.getElementById("map-overlay");
 const backgroundMap = document.querySelector(".background-map");
 const pageTitle = document.querySelector("header h1");
 const pageSubtitle = document.querySelector("header p");
+const featuredQuote = "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding - those who remember God while standing, sitting, and lying on their sides, and reflect on the creation of the heavens and the earth...";
+const featuredQuoteSource = "Quran, Surah Aal-E-Imran (3:190-191)";
 
 let currentImageRect = null;
 let allImages = [];
@@ -163,11 +165,11 @@ function renderLayout() {
 
   const panelTitle = document.createElement("h2");
   panelTitle.className = "panel-title";
-  panelTitle.textContent = prettifyCategory(activeCategory.name);
+  panelTitle.textContent = featuredQuote;
 
   const panelMeta = document.createElement("p");
   panelMeta.className = "panel-meta";
-  panelMeta.textContent = `${images.length} image${images.length === 1 ? "" : "s"} - ${activeCategory.folder || activeCategory.name}`;
+  panelMeta.textContent = featuredQuoteSource;
 
   panelHeader.appendChild(panelTitle);
   panelHeader.appendChild(panelMeta);

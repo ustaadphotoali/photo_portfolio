@@ -152,18 +152,26 @@ main {
 
 .panel-header {
   margin-bottom: 18px;
+  max-width: 900px;
+  text-align: center;
 }
 
 .panel-title {
   margin: 0;
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  font-weight: 500;
   color: #f3fbff;
+  text-wrap: balance;
 }
 
 .panel-meta {
-  margin: 8px 0 0;
-  color: var(--text-soft);
-  letter-spacing: 0.06em;
+  margin: 14px 0 0;
+  color: var(--accent-strong);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
 }
 
 .hero-container {
