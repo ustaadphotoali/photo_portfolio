@@ -1,20 +1,8 @@
 export async function onRequest({ env }) {
-  const cloudName = env.CLOUDINARY_CLOUD_NAME;
+  const cloudName = "dqntivbw8";
   const apiKey = env.CLOUDINARY_API_KEY;
   const apiSecret = env.CLOUDINARY_API_SECRET;
   const heroImageName = "9412_10_23_2015";
-
-  if (!cloudName || !apiKey || !apiSecret) {
-    return new Response(
-      JSON.stringify({
-        error: "Missing Cloudinary environment variables."
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" }
-      }
-    );
-  }
 
   const auth = btoa(`${apiKey}:${apiSecret}`);
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?max_results=100&direction=desc&image_metadata=true`;
@@ -25,25 +13,13 @@ export async function onRequest({ env }) {
     }
   });
 
-  if (!response.ok) {
-    return new Response(
-      JSON.stringify({
-        error: "Failed to load images from Cloudinary."
-      }),
-      {
-        status: response.status,
-        headers: { "Content-Type": "application/json" }
-      }
-    );
-  }
-
   const data = await response.json();
 
   const images = data.resources.map((img) => {
     const pathParts = img.public_id.split("/");
     const name = pathParts[pathParts.length - 1];
     const folderParts = pathParts.slice(0, -1);
-    const category = folderParts.length ? folderParts[0] : "Uncategorized";
+    const category = folderParts.length ? folderParts[folderParts.length - 1] : "Uncategorized";
     const folder = folderParts.join("/");
 
     let lat = null;

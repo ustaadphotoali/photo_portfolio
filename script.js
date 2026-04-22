@@ -162,7 +162,7 @@ function renderLayout() {
 
   const centerMark = document.createElement("span");
   centerMark.className = "quote-divider-mark";
-  centerMark.textContent = "*";
+  centerMark.textContent = "✦";
 
   const rightLine = document.createElement("span");
   rightLine.className = "quote-divider-line";
