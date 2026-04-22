@@ -156,6 +156,7 @@ function renderLayout() {
 
   const activeCategory = categories.find((category) => category.name === currentCategory) || categories[0];
   const images = allImages.filter((image) => image.category === activeCategory.name);
+  const heroImage = images[0];
 
   const panelHeader = document.createElement("div");
   panelHeader.className = "panel-header";
@@ -171,15 +172,24 @@ function renderLayout() {
   panelHeader.appendChild(panelTitle);
   panelHeader.appendChild(panelMeta);
 
-  const imagesGrid = document.createElement("div");
-  imagesGrid.className = "images-grid";
-
-  images.forEach((imgData) => {
-    imagesGrid.appendChild(createImageCard(imgData));
-  });
-
   content.appendChild(panelHeader);
-  content.appendChild(imagesGrid);
+
+  if (heroImage) {
+    const heroContainer = document.createElement("div");
+    heroContainer.className = "hero-container";
+
+    const img = document.createElement("img");
+    img.src = heroImage.secure_url;
+    img.alt = "featured";
+    img.loading = "lazy";
+
+    img.addEventListener("click", () => {
+      openLightbox(heroImage, img);
+    });
+
+    heroContainer.appendChild(img);
+    content.appendChild(heroContainer);
+  }
 
   shell.appendChild(sidebar);
   shell.appendChild(content);

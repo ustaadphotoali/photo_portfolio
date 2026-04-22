@@ -145,6 +145,9 @@ main {
 
 .gallery-panel {
   padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .panel-header {
@@ -163,44 +166,22 @@ main {
   letter-spacing: 0.06em;
 }
 
-.images-grid {
-  column-count: 3;
-  column-gap: 16px;
+.hero-container {
+  width: 70%;
+  max-width: 900px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(0, 200, 255, 0.6);
+  box-shadow: 0 0 30px rgba(0, 200, 255, 0.8);
+  background: rgba(0, 0, 0, 0.6);
 }
 
-.gallery-item {
-  break-inside: avoid;
-  margin-bottom: 16px;
-  position: relative;
-  border-radius: 18px;
-}
-
-.gallery-item::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  padding: 2px;
-  background: linear-gradient(135deg, rgba(141, 240, 255, 0.9), rgba(71, 215, 255, 0.08));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.92;
-}
-
-.gallery img {
+.hero-container img {
   width: 100%;
+  height: auto;
+  object-fit: contain;
   display: block;
-  border-radius: 18px;
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-
-.gallery img:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 26px rgba(71, 215, 255, 0.2);
 }
 
 .lightbox {
@@ -263,10 +244,6 @@ main {
 }
 
 @media (max-width: 1100px) {
-  .images-grid {
-    column-count: 2;
-  }
-
   .content-shell {
     grid-template-columns: 230px minmax(0, 1fr);
   }
@@ -311,8 +288,8 @@ main {
     padding: 16px;
   }
 
-  .images-grid {
-    column-count: 1;
+  .hero-container {
+    width: 100%;
   }
 
   .lightbox-content {
