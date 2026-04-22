@@ -9,8 +9,8 @@ const overlay = document.getElementById("map-overlay");
 const backgroundMap = document.querySelector(".background-map");
 const pageTitle = document.querySelector("header h1");
 const pageSubtitle = document.querySelector("header p");
-const featuredQuote = "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding - those who remember God while standing, sitting, and lying on their sides, and reflect on the creation of the heavens and the earth...";
-const featuredQuoteSource = "Quran, Surah Aal-E-Imran (3:190-191)";
+const featuredQuote = '"Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding - those who remember God while standing, sitting, and lying on their sides, and reflect on the creation of the heavens and the earth..."';
+const featuredQuoteSource = "- Quran, Surah Aal-E-Imran (3:190-191)";
 
 let currentImageRect = null;
 let allImages = [];
@@ -171,7 +171,24 @@ function renderLayout() {
   panelMeta.className = "panel-meta";
   panelMeta.textContent = featuredQuoteSource;
 
+  const quoteDivider = document.createElement("div");
+  quoteDivider.className = "quote-divider";
+
+  const leftLine = document.createElement("span");
+  leftLine.className = "quote-divider-line";
+
+  const centerMark = document.createElement("span");
+  centerMark.className = "quote-divider-mark";
+  centerMark.textContent = "✦";
+
+  const rightLine = document.createElement("span");
+  rightLine.className = "quote-divider-line";
+
   panelHeader.appendChild(panelTitle);
+  quoteDivider.appendChild(leftLine);
+  quoteDivider.appendChild(centerMark);
+  quoteDivider.appendChild(rightLine);
+  panelHeader.appendChild(quoteDivider);
   panelHeader.appendChild(panelMeta);
 
   content.appendChild(panelHeader);
