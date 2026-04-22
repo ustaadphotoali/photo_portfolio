@@ -94,23 +94,6 @@ function openLightbox(imgData, imgElement) {
   }
 }
 
-function createImageCard(imgData) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "gallery-item";
-
-  const img = document.createElement("img");
-  img.src = imgData.secure_url;
-  img.alt = imgData.display_name || "Portfolio image";
-  img.loading = "lazy";
-
-  img.addEventListener("click", () => {
-    openLightbox(imgData, img);
-  });
-
-  wrapper.appendChild(img);
-  return wrapper;
-}
-
 function createSidebarButton(category) {
   const button = document.createElement("button");
   button.className = "category-link";
@@ -179,7 +162,7 @@ function renderLayout() {
 
   const centerMark = document.createElement("span");
   centerMark.className = "quote-divider-mark";
-  centerMark.textContent = "✦";
+  centerMark.textContent = "*";
 
   const rightLine = document.createElement("span");
   rightLine.className = "quote-divider-line";
